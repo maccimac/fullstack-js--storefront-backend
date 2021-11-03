@@ -10,7 +10,14 @@ const {
 let client
 console.log(ENV)
 
-if(ENV === 'test') {
+client = new Pool({
+  host: HOST,
+  database: ENV == 'dev' ? DB : DB_TEST,
+  user: USER,
+  password: PASSWORD,
+})
+
+/*if(ENV === 'test') {
   client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_DB,
@@ -26,6 +33,6 @@ if(ENV === 'dev') {
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
   })
-}
+}*/
 
 export default client
