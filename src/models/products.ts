@@ -49,13 +49,13 @@ export class ProductStore {
 
         const result = await conn.query(sql, [product.name, product.price, product.category])
 
-        const article = result.rows[0]
+        const targetProduct = result.rows[0]
 
         conn.release()
 
-        return article
+        return targetProduct
     } catch (err) {
-        throw new Error(`Could not add product ${name}. Error: ${err}`)
+        throw new Error(`Could not add product ${product.name}. Error: ${err}`)
     }
   }
 
@@ -67,13 +67,13 @@ export class ProductStore {
 
         const result = await conn.query(sql, [id])
 
-        const article = result.rows[0]
+        const product = result.rows[0]
 
         conn.release()
 
-        return article
+        return product
     } catch (err) {
-        throw new Error(`Could not delete product ${name}. Error: ${err}`)
+        throw new Error(`Could not delete product ${id}. Error: ${err}`)
     }
   }
 }
