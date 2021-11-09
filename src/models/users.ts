@@ -1,8 +1,10 @@
 import Client from '../database'
 import bcrypt from 'bcrypt'
-import {BCRYPT_PW, SALT_ROUNDS} from '../database'
-const bcryptPw: string = BCRYPT_PW as string
-const saltRounds: number = parseInt(SALT_ROUNDS as string)
+import dotenv from 'dotenv'
+dotenv.config()
+// import {BCRYPT_PW, SALT_ROUNDS} from '../database'
+const bcryptPw: string = process.env.BCRYPT_PW as string
+const saltRounds: number = parseInt(process.env.SALT_ROUNDS as string)
 
 export type User = {
   id?: number

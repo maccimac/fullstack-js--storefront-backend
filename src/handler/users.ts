@@ -1,9 +1,14 @@
 import express, { Request, Response } from 'express'
-import { User, UserStore } from '../models/users'
 import bodyParser from 'body-parser'
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
+
+import { User, UserStore } from '../models/users'
+// import { JWT_TOKEN_SECRET } from '../database'
 
 // var jsonParser = bodyParser.json()
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
+dotenv.config()
 
 const store = new UserStore()
 
@@ -25,7 +30,9 @@ const create = async (req: Request, res: Response) => {
         console.log(user)
 
         const newUser = await store.create(user)
-        res.json(newUser)
+        const token = jwt.sign({user: newUser}, process.env.JWT_TOKEN_SECRET as string)
+        res.json(token)
+        // res.json(newUser)
 
     } catch(err) {
         res.status(400)

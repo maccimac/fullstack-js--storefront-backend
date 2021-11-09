@@ -35,10 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var dotenv_1 = __importDefault(require("dotenv"));
 var users_1 = require("../models/users");
+// import { JWT_TOKEN_SECRET } from '../database'
 // var jsonParser = bodyParser.json()
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
+dotenv_1.default.config();
 var store = new users_1.UserStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
@@ -65,7 +72,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, newUser, err_1;
+    var user, newUser, token, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -78,7 +85,8 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, store.create(user)];
             case 2:
                 newUser = _a.sent();
-                res.json(newUser);
+                token = jsonwebtoken_1.default.sign({ user: newUser }, process.env.JWT_TOKEN_SECRET);
+                res.json(token);
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
@@ -120,6 +128,6 @@ var productRoutes = function (app) {
     app.get('/users/:id', show);
     app.post('/users', create);
     app.delete('/users', destroy);
-    app.get('/users/auth', authenticate);
+    app.get('/auth', authenticate);
 };
 exports.default = productRoutes;

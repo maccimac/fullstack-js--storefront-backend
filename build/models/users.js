@@ -42,9 +42,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserStore = void 0;
 var database_1 = __importDefault(require("../database"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
-var database_2 = require("../database");
-var bcryptPw = database_2.BCRYPT_PW;
-var saltRounds = parseInt(database_2.SALT_ROUNDS);
+var dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+// import {BCRYPT_PW, SALT_ROUNDS} from '../database'
+var bcryptPw = process.env.BCRYPT_PW;
+var saltRounds = parseInt(process.env.SALT_ROUNDS);
 var UserStore = /** @class */ (function () {
     function UserStore() {
     }
