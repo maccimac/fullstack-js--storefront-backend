@@ -50,34 +50,60 @@ var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-/*const show = async (req: Request, res: Response) => {
-   const article = await store.show(req.body.id)
-   res.json(article)
-}
-
-const create = async (req: Request, res: Response) => {
-    try {
-        const article: Article = {
-            title: req.body.title,
-            content: req.body.content,
+var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var article;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, store.show(req.body.id)];
+            case 1:
+                article = _a.sent();
+                res.json(article);
+                return [2 /*return*/];
         }
-
-        const newArticle = await store.create(article)
-        res.json(newArticle)
-    } catch(err) {
-        res.status(400)
-        res.json(err)
-    }
-}
-
-const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
-    res.json(deleted)
-}*/
+    });
+}); };
+var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var product, newProduct, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                product = {
+                    name: req.body.name,
+                    price: req.body.price,
+                    category: req.body.category,
+                };
+                return [4 /*yield*/, store.create(product)];
+            case 1:
+                newProduct = _a.sent();
+                res.json(newProduct);
+                return [3 /*break*/, 3];
+            case 2:
+                err_1 = _a.sent();
+                res.status(400);
+                res.json(err_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var deleted;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, store.delete(req.body.id)];
+            case 1:
+                deleted = _a.sent();
+                res.json(deleted);
+                return [2 /*return*/];
+        }
+    });
+}); };
 var productRoutes = function (app) {
     app.get('/products', index);
-    /*app.get('/articles/:id', show)
-    app.post('/articles', create)
-    app.delete('/articles', destroy)*/
+    app.get('/products/:id', show);
+    app.post('/products', create);
+    app.delete('/products', destroy);
+    // app.get('/auth', authenticate)
 };
 exports.default = productRoutes;

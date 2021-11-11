@@ -43,7 +43,14 @@ const create = async (req: Request, res: Response) => {
 const authenticate = async (req: Request, res: Response) => {
     console.log(req)
     const user = await store.authenticate(req.query.username as string, req.query.password as string)
-    res.json(user)
+
+    const token = jwt.sign({user: user}, process.env.JWT_TOKEN_SECRET as string)
+
+
+    res.json({
+      user,
+      token,
+    })
 }
 
 const destroy = async (req: Request, res: Response) => {

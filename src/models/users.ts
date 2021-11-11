@@ -76,20 +76,26 @@ export class UserStore {
     }
   }
 
-  async authenticate(username: string, password: string): Promise<User | null>{
+  async authenticate(username: string, password: string): Promise<User | null >{
     const conn = await Client.connect()
-    const sql = 'SELECT password_digest FROM users WHERE username=($1)'
+    const sql = 'SELECT * FROM users WHERE username=($1)'
     const result = await conn.query(sql,[username])
     console.log(password+bcryptPw)
+    console.log(result)
 
     if(result.rows.length){
       const targetUser = result.rows[0]
-      console.log(targetUser)
+
       if(bcrypt.compareSync(password+bcryptPw, targetUser.password_digest)){
+
         return targetUser
+      }else{
+        return null
       }
+    } else {
+      return null
     }
-    return null
+
   }
 
   async delete(id: string): Promise<User> {
