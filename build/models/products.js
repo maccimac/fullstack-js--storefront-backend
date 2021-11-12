@@ -71,7 +71,7 @@ var ProductStore = /** @class */ (function () {
     };
     ProductStore.prototype.show = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, err_2;
+            var sql, conn, result, err_2, err_msg;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -87,7 +87,8 @@ var ProductStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_2 = _a.sent();
-                        throw new Error("Could not get products " + id + ". Error: " + err_2);
+                        err_msg = "Could not get products " + id + ". Error: " + err_2;
+                        throw new Error(err_msg);
                     case 4: return [2 /*return*/];
                 }
             });
@@ -100,11 +101,11 @@ var ProductStore = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'INSERT INTO products (name, price, category) VALUES($1, $2, $3) RETURNING *';
+                        sql = 'INSERT INTO products (name, price, brand) VALUES($1, $2, $3) RETURNING *';
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [product.name, product.price, product.category])];
+                        return [4 /*yield*/, conn.query(sql, [product.name, product.price, product.brand])];
                     case 2:
                         result = _a.sent();
                         targetProduct = result.rows[0];
@@ -118,9 +119,39 @@ var ProductStore = /** @class */ (function () {
             });
         });
     };
+    ProductStore.prototype.update = function (product) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sql, conn, result, resolvedId, targetProduct, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 5, , 6]);
+                        sql = "\n      UPDATE products\n      SET name = $2, price = $3, brand = $4\n      WHERE id = $1;\n      ";
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(sql, [product.id, product.name, product.price, product.brand])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        if (!result.rowCount) return [3 /*break*/, 4];
+                        resolvedId = "" + product.id;
+                        return [4 /*yield*/, this.show(resolvedId)];
+                    case 3:
+                        targetProduct = _a.sent();
+                        return [2 /*return*/, targetProduct];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        err_4 = _a.sent();
+                        throw new Error("Could not edit product " + product.name + ". Error: " + err_4);
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
     ProductStore.prototype.delete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, product, err_4;
+            var sql, conn, result, product, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -136,8 +167,8 @@ var ProductStore = /** @class */ (function () {
                         conn.release();
                         return [2 /*return*/, product];
                     case 3:
-                        err_4 = _a.sent();
-                        throw new Error("Could not delete product " + id + ". Error: " + err_4);
+                        err_5 = _a.sent();
+                        throw new Error("Could not delete product " + id + ". Error: " + err_5);
                     case 4: return [2 /*return*/];
                 }
             });

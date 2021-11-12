@@ -1,8 +1,9 @@
 import bodyParser from 'body-parser'
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response } from 'express'
 import { Product, ProductStore } from '../models/products'
+import { verifyAuth } from './auth'
 
 const store = new ProductStore()
 
@@ -12,39 +13,40 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-   const article = await store.show(req.body.id)
-   res.json(article)
-}
-
-const verifyAuth = async(req: Request, res: Response, next: NextFunction) =>{
-  // console.log(req.headers)
-  try{
-    const authHeader = req.headers.authorization
-    // const bodyToken = req.body.token
-    // const token = authHeader.split(' ')[1]
-    // jwt.verify(token, process.env.JWT_TOKEN_SECRET as string)
-    const jwtVerification = jwt.verify(authHeader as string, process.env.JWT_TOKEN_SECRET as string)
-    console.log({jwtVerification})
-    if(jwtVerification) {
-      next()
-    }
-
-  } catch(err){
-    res.status(401)
-    res.json('Access denied, invalid token')
-    return
-  }
+   const product = await store.show(req.params.id)
+   res.json(product)
 }
 
 const create = async (req: Request, res: Response) => {
+
     try {
         const product: Product = {
+            // id: req.body.id,
             name: req.body.name,
             price: req.body.price,
-            category: req.body.category,
+            brand: req.body.brand,
         }
 
         const newProduct = await store.create(product)
+        res.json(newProduct)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
+}
+
+const update = async (req: Request, res: Response) => {
+    try {
+        const resolvedId = parseInt(req.params.id);
+        console.log(resolvedId)
+        const product: Product = {
+            id: resolvedId,
+            name: req.body.name,
+            price: req.body.price,
+            brand: req.body.brand,
+        }
+
+        const newProduct = await store.update(product)
         res.json(newProduct)
     } catch(err) {
         res.status(400)
@@ -58,9 +60,10 @@ const destroy = async (req: Request, res: Response) => {
 }
 
 const productRoutes = (app: express.Application) => {
-  app.get('/products',verifyAuth, index)
-  app.get('/products/:id', show)
+  app.get('/products', verifyAuth, index)
+  app.get('/product/:id', show)
   app.post('/products', verifyAuth, create)
+  app.put('/product/:id', verifyAuth, update)
   app.delete('/products', destroy)
 
   // app.get('/auth', authenticate)

@@ -44,7 +44,6 @@ var database_1 = __importDefault(require("../database"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// import {BCRYPT_PW, SALT_ROUNDS} from '../database'
 var bcryptPw = process.env.BCRYPT_PW;
 var saltRounds = parseInt(process.env.SALT_ROUNDS);
 var UserStore = /** @class */ (function () {
@@ -138,19 +137,25 @@ var UserStore = /** @class */ (function () {
                     case 0: return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT password_digest FROM users WHERE username=($1)';
+                        sql = 'SELECT * FROM users WHERE username=($1)';
                         return [4 /*yield*/, conn.query(sql, [username])];
                     case 2:
                         result = _a.sent();
                         console.log(password + bcryptPw);
+                        console.log(result);
                         if (result.rows.length) {
                             targetUser = result.rows[0];
-                            console.log(targetUser);
                             if (bcrypt_1.default.compareSync(password + bcryptPw, targetUser.password_digest)) {
                                 return [2 /*return*/, targetUser];
                             }
+                            else {
+                                return [2 /*return*/, null];
+                            }
                         }
-                        return [2 /*return*/, null];
+                        else {
+                            return [2 /*return*/, null];
+                        }
+                        return [2 /*return*/];
                 }
             });
         });

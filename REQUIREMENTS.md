@@ -9,7 +9,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Show (args: product id)
 - Create (args: Product)[token required]
 - [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
+- [OPTIONAL] Products by brand (args: product brand)
 
 #### Users
 - Index [token required]
@@ -25,7 +25,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 -  id
 - name
 - price
-- [OPTIONAL] category
+- [OPTIONAL] brand
 
 #### User
 - id

@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var products_1 = require("../models/products");
+var auth_1 = require("./auth");
 var store = new products_1.ProductStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var products;
@@ -51,13 +52,13 @@ var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var article;
+    var product;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store.show(req.body.id)];
+            case 0: return [4 /*yield*/, store.show(req.params.id)];
             case 1:
-                article = _a.sent();
-                res.json(article);
+                product = _a.sent();
+                res.json(product);
                 return [2 /*return*/];
         }
     });
@@ -69,9 +70,10 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 product = {
+                    // id: req.body.id,
                     name: req.body.name,
                     price: req.body.price,
-                    category: req.body.category,
+                    brand: req.body.brand,
                 };
                 return [4 /*yield*/, store.create(product)];
             case 1:
@@ -82,6 +84,34 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 err_1 = _a.sent();
                 res.status(400);
                 res.json(err_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var resolvedId, product, newProduct, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                resolvedId = parseInt(req.params.id);
+                console.log(resolvedId);
+                product = {
+                    id: resolvedId,
+                    name: req.body.name,
+                    price: req.body.price,
+                    brand: req.body.brand,
+                };
+                return [4 /*yield*/, store.update(product)];
+            case 1:
+                newProduct = _a.sent();
+                res.json(newProduct);
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                res.status(400);
+                res.json(err_2);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -100,9 +130,10 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 var productRoutes = function (app) {
-    app.get('/products', index);
-    app.get('/products/:id', show);
-    app.post('/products', create);
+    app.get('/products', auth_1.verifyAuth, index);
+    app.get('/product/:id', show);
+    app.post('/products', auth_1.verifyAuth, create);
+    app.put('/product/:id', auth_1.verifyAuth, update);
     app.delete('/products', destroy);
     // app.get('/auth', authenticate)
 };

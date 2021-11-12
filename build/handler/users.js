@@ -98,7 +98,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+    var user, token;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -106,7 +106,11 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, store.authenticate(req.query.username, req.query.password)];
             case 1:
                 user = _a.sent();
-                res.json(user);
+                token = jsonwebtoken_1.default.sign({ user: user }, process.env.JWT_TOKEN_SECRET);
+                res.json({
+                    user: user,
+                    token: token,
+                });
                 return [2 /*return*/];
         }
     });
