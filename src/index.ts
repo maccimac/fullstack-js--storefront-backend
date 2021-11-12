@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import productRoutes from './handler/products'
 import userRoutes from './handler/users'
+import orderRoutes from './handler/orders'
 
 export const app = express()
 export const port = 3000
@@ -24,32 +25,5 @@ app.get('/', (req: express.Request, res: express.Response) => {
 
 
 productRoutes(app)
-
-app.get('/products', (req: express.Request, res: express.Response) => {
-    try {
-        res.send('this is the INDEX route')
-    } catch (err) {
-        res.status(400)
-        res.json(err)
-    }
-})
-
 userRoutes(app)
-
-app.get('/user/:id', (req: express.Request, res: express.Response) => {
-    try {
-       res.send('this is the SHOW route')
-    } catch (err) {
-       res.status(400)
-       res.json(err)
-    }
-})
-
-// app.get('/users', (req: express.Request, res: express.Response) => {
-//     try {
-//         res.send('this is the INDEX route')
-//     } catch (err) {
-//         res.status(400)
-//         res.json(err)
-//     }
-// })
+orderRoutes(app)

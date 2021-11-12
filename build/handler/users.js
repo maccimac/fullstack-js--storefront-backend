@@ -86,7 +86,10 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 2:
                 newUser = _a.sent();
                 token = jsonwebtoken_1.default.sign({ user: newUser }, process.env.JWT_TOKEN_SECRET);
-                res.json(token);
+                res.json({
+                    user: newUser,
+                    token: token,
+                });
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
@@ -108,8 +111,8 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
                 user = _a.sent();
                 token = jsonwebtoken_1.default.sign({ user: user }, process.env.JWT_TOKEN_SECRET);
                 res.json({
-                    user: user,
                     token: token,
+                    user: user,
                 });
                 return [2 /*return*/];
         }
@@ -129,9 +132,9 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
 }); };
 var productRoutes = function (app) {
     app.get('/users', index);
-    app.get('/users/:id', show);
-    app.post('/users', create);
-    app.delete('/users', destroy);
+    app.get('/user/:id', show);
+    app.post('/user', create);
+    app.delete('/user', destroy);
     app.get('/auth', authenticate);
 };
 exports.default = productRoutes;

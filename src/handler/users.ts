@@ -31,7 +31,10 @@ const create = async (req: Request, res: Response) => {
 
         const newUser = await store.create(user)
         const token = jwt.sign({user: newUser}, process.env.JWT_TOKEN_SECRET as string)
-        res.json(token)
+        res.json({
+          user: newUser,
+          token,
+        })
         // res.json(newUser)
 
     } catch(err) {
@@ -48,8 +51,8 @@ const authenticate = async (req: Request, res: Response) => {
 
 
     res.json({
-      user,
       token,
+      user,
     })
 }
 
@@ -60,9 +63,9 @@ const destroy = async (req: Request, res: Response) => {
 
 const productRoutes = (app: express.Application) => {
   app.get('/users', index)
-  app.get('/users/:id', show)
-  app.post('/users', create)
-  app.delete('/users', destroy)
+  app.get('/user/:id', show)
+  app.post('/user', create)
+  app.delete('/user', destroy)
 
   app.get('/auth', authenticate)
 }

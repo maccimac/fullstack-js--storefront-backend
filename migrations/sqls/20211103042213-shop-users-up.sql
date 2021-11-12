@@ -7,7 +7,8 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, firstname, lastname, password_digest)
-VALUES ('maccimac', 'Margaret', 'Macaranas', '2b$10$XWsMKPzGc2McEhFW/ebd3e02HHOkwPt3eqBJDJ9wEgSW0K6PcVZwi');
+VALUES ('maccimac', 'Margaret', 'Macaranas', '$2b$10$g9vf0pOoY8jsDSBaG3JDY.NMchwqVL91kEZnKjv8k.fk.2iFMkwRq');
+/* password: manila */
 
 INSERT INTO users (username, firstname, lastname, password_digest)
 VALUES ('jkrbondoc', 'Joshua', 'Bondoc', '$2b$10$9aR7zsMQBtid4gtxMtzwgeyxR2eZlfa.xQcEFkDQc5aPjmT9kc3qW');

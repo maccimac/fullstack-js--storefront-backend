@@ -36,49 +36,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var products_1 = require("../models/products");
+var orders_1 = require("../models/orders");
 var auth_1 = require("./auth");
-var store = new products_1.ProductStore();
+var store = new orders_1.OrderStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var orders;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, store.index()];
             case 1:
-                products = _a.sent();
-                res.json(products);
+                orders = _a.sent();
+                res.json(orders);
                 return [2 /*return*/];
         }
     });
 }); };
 var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product;
+    var order;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, store.show(req.params.id)];
             case 1:
-                product = _a.sent();
-                res.json(product);
+                order = _a.sent();
+                res.json(order);
                 return [2 /*return*/];
         }
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, newProduct, err_1;
+    var order, newOrder, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                product = {
-                    // id: req.body.id,
-                    name: req.body.name,
-                    price: req.body.price,
-                    brand: req.body.brand,
+                order = {
+                    product_id: req.body.product_id,
+                    user_id: req.body.user_id,
+                    quantity: req.body.quantity,
+                    status: req.body.status
                 };
-                return [4 /*yield*/, store.create(product)];
+                return [4 /*yield*/, store.create(order)];
             case 1:
-                newProduct = _a.sent();
-                res.json(newProduct);
+                newOrder = _a.sent();
+                res.json(newOrder);
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -90,23 +90,24 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var resolvedId, product, newProduct, err_2;
+    var resolvedId, order, newOrder, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 resolvedId = parseInt(req.params.id);
                 console.log(resolvedId);
-                product = {
+                order = {
                     id: resolvedId,
-                    name: req.body.name,
-                    price: req.body.price,
-                    brand: req.body.brand,
+                    product_id: req.body.product_id,
+                    user_id: req.body.user_id,
+                    quantity: req.body.quantity,
+                    status: req.body.status
                 };
-                return [4 /*yield*/, store.update(product)];
+                return [4 /*yield*/, store.update(order)];
             case 1:
-                newProduct = _a.sent();
-                res.json(newProduct);
+                newOrder = _a.sent();
+                res.json(newOrder);
                 return [3 /*break*/, 3];
             case 2:
                 err_2 = _a.sent();
@@ -129,12 +130,12 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
-var productRoutes = function (app) {
-    app.get('/products', auth_1.verifyAuth, index);
-    app.get('/product/:id', show);
-    app.post('/product', auth_1.verifyAuth, create);
-    app.put('/product/:id', auth_1.verifyAuth, update);
-    app.delete('/product', destroy);
+var orderRoutes = function (app) {
+    app.get('/orders', auth_1.verifyAuth, index);
+    app.get('/order/:id', show);
+    app.post('/order', auth_1.verifyAuth, create);
+    app.put('/order/:id', auth_1.verifyAuth, update);
+    app.delete('/order', destroy);
     // app.get('/auth', authenticate)
 };
-exports.default = productRoutes;
+exports.default = orderRoutes;
