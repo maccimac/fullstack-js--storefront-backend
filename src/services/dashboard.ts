@@ -8,26 +8,27 @@ export interface OrderSummary extends Order, Product, User {
 }
 
 export class DashboardQueries {
-  async fetchProduct(orderId: string | number, orderStatus: string ): Promise<OrderSummary[]>{
+  async fetchProduct(productId: string | number, orderStatus: string | boolean ): Promise<OrderSummary[]>{
     const conn = await Client.connect()
-    console.log(orderId)
     const sql = `
         SELECT
           orders.id,
           name,
           product_id,
           status,
-          quantity,
-          users.username,
-          brand
+          users.username
         FROM orders
-        JOIN users
+        INNER JOIN products
+          ON orders.product_id = products.id
+        INNER JOIN users
           ON orders.user_id = users.id
-        JOIN products
-          ON products.id = ${orderId}
         WHERE
-          orders.status = '${orderStatus}'
-    ;`
+          orders.product_id = ${productId}
+        ${orderStatus
+            ? ` AND orders.status = '${orderStatus}';`
+            : ` ; `
+          }
+      `
     const result = await conn.query(sql)
     conn.release()
     return result.rows

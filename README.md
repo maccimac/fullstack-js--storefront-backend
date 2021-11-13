@@ -22,6 +22,7 @@ Udacity FullStack Javascript NanoDegree Second Project
 * To get a JWT Token, run on Postman: `localhost:3000/auth?username=maccimac&password=pw123`
   * Copy returned auth token. Pass token on request.headers.authorization for secure requests
 * To run tests. Run in terminal: `npm run tests`
+
 ##### Sample Users Credentials
 * Username: `maccimac` / Password: `pw123`
 * Username: `sample_user` / Password: `password456`  
@@ -50,27 +51,53 @@ Udacity FullStack Javascript NanoDegree Second Project
   ```
   * Returns User and JWT Token
 
-### Products
+  ### Products
+  Product requests requires JWT Token passed to headers.authorization
+  * Index - [GET] `/products`
+  * Show - [GET] `/product/:id`
+    * Does not require JWT Token
+  * Create - [POST] `/product`
+    * Required body:
+      ```
+      {   "name": <product name>,
+          "price" : <price>,
+          "brand": <brand name>   }
+      ```
+  * Update - [PUT] `/product/:id`
+    * Required body:
+      ```
+      {   "name": <update or retain name>,
+          "price" : <update or retain price>,
+          "brand": <update or retain brand>   }
+      ```
+
+### Orders
 Product requests requires JWT Token passed to headers.authorization
-* Index - [GET] `/products`
-* Show - [GET] `/product/:id`
-  * Does not require JWT Token
-* Create - [POST] `/product`
+* Index - [GET] `/orders`
+* Show - [GET] `/order/:id`
+* Create - [POST] `/order`
   * Required body:
     ```
-    {   "name": <product name>,
-        "price" : <price>,
-        "brand": <brand name>   }
+    {   "product_id": <1-14>,
+        "user_id" : <1-3>,
+        "quantity": <any number>,
+        "status" : <pending / active / complete>  }
     ```
 * Update - [PUT] `/product/:id`
   * Required body:
     ```
-    {   "name": <update or retain name>,
-        "price" : <update or retain price>,
-        "brand": <update or retain brand>   }
+    {   "product_id": <1-14>,
+        "user_id" : <1-3>,
+        "quantity": <any number>,
+        "status" : <pending / active / complete>  }
     ```
-* Delete - [DESTROY] `/product`
 
+
+### Dashboard
+* Index / Products in orders- [GET] `/orders/products`
+* Products in order id - [GET] `/orders/product/:productId`
+* Products in order id with status filter - [GET] `/orders/product/:productId/:orderStatus`
+* Products by price - [GET] `/products/byPrice`
 
 
 
@@ -80,9 +107,10 @@ Product requests requires JWT Token passed to headers.authorization
 
 
 ## Version History
-* 1.1
-    * Various bug fixes and optimizations
-* 1.0
-    * Initial Release
+* v2.0
+    * Recommendations if any
+* v1.0
+    * Initial submit
 
 ## Acknowledgments
+Thanks Udacity!

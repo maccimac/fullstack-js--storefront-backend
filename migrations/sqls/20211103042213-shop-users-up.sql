@@ -16,4 +16,5 @@ VALUES ('sample_user', 'Joshua', 'Bondoc', '$2b$10$8ckiANmMS.Q8ZTKzWBKWReuR06h1z
 /* password: password456 */
 
 INSERT INTO users (username, firstname, lastname, password_digest)
-VALUES ('maccihello', 'Margaret', 'Macaranas', '$2b$10$g9vf0pOoY8jsDSBaG3JDY.NMchwqVL91kEZnKjv8k.fk.2iFMkwRq');
+VALUES ('maccihello', 'Margaret', 'Macaranas', '$2b$10$XBp3B58HbWV4Y2Fktc3sVehhT8LHNquW2//qUaXpp6/6LGE7Bq4nS');
+/* password: canada */

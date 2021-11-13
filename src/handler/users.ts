@@ -24,10 +24,8 @@ const show = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
-    console.log(req)
     try {
         const user: User = req.body
-        console.log(user)
 
         const newUser = await store.create(user)
         const token = jwt.sign({user: newUser}, process.env.JWT_TOKEN_SECRET as string)
@@ -35,7 +33,6 @@ const create = async (req: Request, res: Response) => {
           user: newUser,
           token,
         })
-        // res.json(newUser)
 
     } catch(err) {
         res.status(400)
@@ -44,16 +41,19 @@ const create = async (req: Request, res: Response) => {
 }
 
 const authenticate = async (req: Request, res: Response) => {
-    console.log(req)
     const user = await store.authenticate(req.query.username as string, req.query.password as string)
 
-    const token = jwt.sign({user: user}, process.env.JWT_TOKEN_SECRET as string)
+    if (user){
+      const token = jwt.sign({user: user}, process.env.JWT_TOKEN_SECRET as string)
+      res.json({
+        token,
+        user,
+      })
+    }else{
+      res.json(null)
+    }
 
 
-    res.json({
-      token,
-      user,
-    })
 }
 
 const destroy = async (req: Request, res: Response) => {

@@ -18,7 +18,7 @@ const productsByPrice = async (_req: Request, res: Response) => {
 
 const fetchProductOrder = async (req: Request, res: Response) => {
   console.log(req.params)
-  const resolvedOrderStatus = req.params.orderStatus ? req.params.orderStatus : 'complete'
+  const resolvedOrderStatus = req.params.orderStatus ? req.params.orderStatus : false
   const orders = await dashboard.fetchProduct(req.params.productId, resolvedOrderStatus)
    res.json(orders)
 }
@@ -26,11 +26,9 @@ const fetchProductOrder = async (req: Request, res: Response) => {
 
 const dashboardRoutes = (app: express.Application) => {
   app.get('/orders/products', productsInOrders)
-  app.get('/products/byPrice', productsByPrice)
   app.get('/orders/product/:productId', fetchProductOrder)
   app.get('/orders/product/:productId/:orderStatus', fetchProductOrder)
-
-
+  app.get('/products/byPrice', productsByPrice)
 }
 
 export default dashboardRoutes

@@ -9,7 +9,7 @@
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./build --onSuccess 'node ./build/server.js' ",
     "test": "npx tsc && db-migrate --env test up:test && ENV=test jasmine-ts && db-migrate --env test down:test ",
     "jasmine": "npx jasmine",
-    "migrate": "npx db-migrate down && db-migrate up"
+    "migrate": "npx db-migrate reset && db-migrate up"
   },
   "repository": {
     "type": "git",
