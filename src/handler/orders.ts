@@ -3,9 +3,11 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import express, { Request, Response } from 'express'
 import { Order, OrderStore } from '../models/orders'
+import { ProductOrder, ProductOrderStore } from '../models/productOrders'
 import { verifyAuth } from './auth'
 
 const store = new OrderStore()
+const productOrderStore = new ProductOrderStore()
 
 const index = async (_req: Request, res: Response) => {
   const orders = await store.index()
@@ -60,6 +62,13 @@ const destroy = async (req: Request, res: Response) => {
     res.json(deleted)
 }
 
+const fetchProductOrder = async (req: Request, res: Response) => {
+   const orders = await productOrderStore.fetchProduct(req.params.productId)
+   res.json(orders)
+}
+
+
+
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', verifyAuth, index)
   app.get('/order/:id', show)
@@ -67,7 +76,8 @@ const orderRoutes = (app: express.Application) => {
   app.put('/order/:id', verifyAuth, update)
   app.delete('/order', destroy)
 
-  // app.get('/auth', authenticate)
+  app.get('/orders/product/:productId', fetchProductOrder)
+
 }
 
 export default orderRoutes

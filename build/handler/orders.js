@@ -37,8 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var orders_1 = require("../models/orders");
+var productOrders_1 = require("../models/productOrders");
 var auth_1 = require("./auth");
 var store = new orders_1.OrderStore();
+var productOrderStore = new productOrders_1.ProductOrderStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var orders;
     return __generator(this, function (_a) {
@@ -130,12 +132,24 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
+var fetchProductOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var orders;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, productOrderStore.fetchProduct(req.params.productId)];
+            case 1:
+                orders = _a.sent();
+                res.json(orders);
+                return [2 /*return*/];
+        }
+    });
+}); };
 var orderRoutes = function (app) {
     app.get('/orders', auth_1.verifyAuth, index);
     app.get('/order/:id', show);
     app.post('/order', auth_1.verifyAuth, create);
     app.put('/order/:id', auth_1.verifyAuth, update);
     app.delete('/order', destroy);
-    // app.get('/auth', authenticate)
+    app.get('/orders/product/:productId', fetchProductOrder);
 };
 exports.default = orderRoutes;

@@ -102,4 +102,5 @@ export class OrderStore {
         throw new Error(`Could not delete order ${id}. Error: ${err}`)
     }
   }
+
 }
