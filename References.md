@@ -1,3 +1,6 @@
+# RUBRIC
+- https://review.udacity.com/#!/rubrics/3061/view
+
 # LINK REFERENCES
 - https://www.postgresql.org/download/macosx/
 - https://dataschool.com/learn-sql/how-to-start-a-postgresql-server-on-mac-os-x/
