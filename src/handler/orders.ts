@@ -63,10 +63,10 @@ const destroy = async (req: Request, res: Response) => {
 
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', verifyAuth, index)
-  app.get('/order/:id', show)
+  app.get('/order/:id', verifyAuth, show)
   app.post('/order', verifyAuth, create)
   app.put('/order/:id', verifyAuth, update)
-  app.delete('/order', destroy)
+  app.delete('/order', verifyAuth, destroy)
 
 }
 

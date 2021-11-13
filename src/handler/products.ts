@@ -64,7 +64,7 @@ const productRoutes = (app: express.Application) => {
   app.get('/product/:id', show)
   app.post('/product', verifyAuth, create)
   app.put('/product/:id', verifyAuth, update)
-  app.delete('/product', destroy)
+  app.delete('/product', verifyAuth, destroy)
 
   // app.get('/auth', authenticate)
 }
