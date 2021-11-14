@@ -1,6 +1,8 @@
-import {DisplayProcessor, SpecReporter, StacktraceOption} from "jasmine-spec-reporter";
-
+import {DisplayProcessor, SpecReporter, StacktraceOption} from 'jasmine-spec-reporter';
 import SuiteInfo = jasmine.SuiteInfo;
+
+/*const  {DisplayProcessor, SpecReporter, StacktraceOption}  = require('jasmine-spec-reporter')
+const {SuiteInfo} = require (jasmine.SuiteInfo)*/
 
 class CustomProcessor extends DisplayProcessor {
     public displayJasmineStarted(info: SuiteInfo, log: string): string {

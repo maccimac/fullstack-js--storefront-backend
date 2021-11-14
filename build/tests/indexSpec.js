@@ -1,7 +1,7 @@
 "use strict";
-describe('Init tests', function () {
-    it('Sample Test', function () {
-        var trueVal = true;
+describe('Initiate tests', () => {
+    it('Tests are starting', () => {
+        const trueVal = true;
         expect(trueVal).toEqual(true);
     });
 });
