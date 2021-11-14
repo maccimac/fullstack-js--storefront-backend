@@ -57,13 +57,13 @@ const authenticate = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
+    const deleted = await store.delete(req.body.username)
     res.json(deleted)
 }
 
 const productRoutes = (app: express.Application) => {
   app.get('/users', index)
-  app.get('/user/:id', show)
+  app.get('/user/:username', show)
   app.post('/user', create)
   app.delete('/user', destroy)
 

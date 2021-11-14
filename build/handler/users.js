@@ -48,12 +48,12 @@ const authenticate = async (req, res) => {
     }
 };
 const destroy = async (req, res) => {
-    const deleted = await store.delete(req.body.id);
+    const deleted = await store.delete(req.body.username);
     res.json(deleted);
 };
 const productRoutes = (app) => {
     app.get('/users', index);
-    app.get('/user/:id', show);
+    app.get('/user/:username', show);
     app.post('/user', create);
     app.delete('/user', destroy);
     app.get('/auth', authenticate);
