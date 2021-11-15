@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const users_1 = require("./users");
 const store = new users_1.UserStore();
-describe("Test user model", () => {
+describe("User model tests", () => {
     it('User index method should return rows', async () => {
         const results = await store.index();
         expect(results.length).toBeGreaterThan(0);
@@ -47,19 +47,19 @@ describe("Test user model", () => {
             noResult(result);
         }
     });
-    /*it('User update can edit password', async()=>{
-      const newUserCred = {
-        ...userCred,
-        password: 'javascrtipt'
-      }
-  
-      const result = await store.update(newUserCred);
-      if(result){
-        expect(result.price).toEqual(updatedProduct.price);
-      }else{
-        noResult(result)
-      }
-    })*/
+    it('User update can edit password', async () => {
+        const newUserCred = {
+            ...userCred,
+            password: 'javascript'
+        };
+        const result = await store.update(userCred.username, newUserCred);
+        if (result) {
+            expect(result.username).toEqual(userCred.username);
+        }
+        else {
+            noResult(result);
+        }
+    });
     it('User delete can remove user', async () => {
         const result = await store.delete(userCred.username);
         if (result) {

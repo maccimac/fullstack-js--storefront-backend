@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardQueries = void 0;
 const database_1 = __importDefault(require("../database"));
 class DashboardQueries {
-    async fetchProduct(productId, orderStatus) {
+    async fetchProduct(productId, orderStatus = null) {
         const conn = await database_1.default.connect();
         const sql = `
         SELECT

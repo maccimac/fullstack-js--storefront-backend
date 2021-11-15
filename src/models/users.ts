@@ -80,17 +80,44 @@ export class UserStore {
     }
   }
 
+  async update(username: string, user: User): Promise<User | null> {
+    const hash = bcrypt.hashSync( user.password + bcryptPw, saltRounds)
+
+    try{
+      const sql = `
+      UPDATE users
+      SET username = $1, firstname = $2, lastname = $3, password_digest = $4
+      WHERE username = '${username}';
+      `
+      // @ts-ignore
+      const conn = await Client.connect()
+      const result = await conn.query(sql, [user.username, user.firstname, user.lastname, hash])
+      conn.release()
+
+      if(result.rowCount){
+        return {
+          username: username,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          password_digest: hash
+        }
+      }else{
+        return null
+      }
+
+    }catch(err){
+      throw new Error(`Could not edit user ${username}. Error: ${err}`)
+    }
+  }
+
   async authenticate(username: string, password: string): Promise<User | null >{
     const conn = await Client.connect()
     const sql = 'SELECT * FROM users WHERE username=($1)'
     const result = await conn.query(sql,[username])
-    // console.log(password+bcryptPw)
 
     if(result.rows.length){
       const targetUser = result.rows[0]
-
       if(bcrypt.compareSync(password+bcryptPw, targetUser.password_digest)){
-
         return targetUser
       }else{
         return null

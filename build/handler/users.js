@@ -34,6 +34,27 @@ const create = async (req, res) => {
         res.json(err);
     }
 };
+const update = async (req, res) => {
+    try {
+        const username = req.params.username;
+        const newUserCred = req.body;
+        const updatedUser = await store.update(username, newUserCred);
+        const token = jsonwebtoken_1.default.sign({ user: updatedUser }, process.env.JWT_TOKEN_SECRET);
+        if (Boolean(updatedUser)) {
+            res.json({
+                user: updatedUser,
+                token,
+            });
+        }
+        else {
+            res.json(`cannot update user ${username}`);
+        }
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
+};
 const authenticate = async (req, res) => {
     const user = await store.authenticate(req.query.username, req.query.password);
     if (user) {
@@ -51,11 +72,12 @@ const destroy = async (req, res) => {
     const deleted = await store.delete(req.body.username);
     res.json(deleted);
 };
-const productRoutes = (app) => {
+const userRoutes = (app) => {
     app.get('/users', index);
     app.get('/user/:username', show);
+    app.put('/user/:username', update);
     app.post('/user', create);
     app.delete('/user', destroy);
     app.get('/auth', authenticate);
 };
-exports.default = productRoutes;
+exports.default = userRoutes;

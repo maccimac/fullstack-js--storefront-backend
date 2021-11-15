@@ -18,7 +18,6 @@ const index = async (_req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-
    const user = await store.show(req.params.id)
    res.json(user)
 }
@@ -33,6 +32,30 @@ const create = async (req: Request, res: Response) => {
           user: newUser,
           token,
         })
+
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
+}
+
+const update = async (req: Request, res: Response) => {
+    try {
+        const username = req.params.username
+        const newUserCred: User = req.body
+
+        const updatedUser = await store.update(username, newUserCred)
+        const token = jwt.sign({user: updatedUser}, process.env.JWT_TOKEN_SECRET as string)
+
+        if(Boolean(updatedUser)){
+          res.json({
+            user: updatedUser,
+            token,
+          })
+
+        }else{
+          res.json(`cannot update user ${username}`)
+        }
 
     } catch(err) {
         res.status(400)
@@ -61,13 +84,13 @@ const destroy = async (req: Request, res: Response) => {
     res.json(deleted)
 }
 
-const productRoutes = (app: express.Application) => {
+const userRoutes = (app: express.Application) => {
   app.get('/users', index)
   app.get('/user/:username', show)
+  app.put('/user/:username', update)
   app.post('/user', create)
   app.delete('/user', destroy)
-
   app.get('/auth', authenticate)
 }
 
-export default productRoutes
+export default userRoutes

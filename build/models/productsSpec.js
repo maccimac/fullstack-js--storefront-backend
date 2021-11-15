@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const products_1 = require("./products");
 const store = new products_1.ProductStore();
-describe("Test product model: ", () => {
+describe("Product model tests: ", () => {
     it('Product index method should return rows', async () => {
         const results = await store.index();
         expect(results.length).toBeGreaterThan(0);

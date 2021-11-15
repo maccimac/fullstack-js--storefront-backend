@@ -50,19 +50,18 @@ describe("User model tests", () => {
     }
   })
 
-  /*it('User update can edit password', async()=>{
+  it('User update can edit password', async()=>{
     const newUserCred = {
       ...userCred,
-      password: 'javascrtipt'
+      password: 'javascript'
     }
-
-    const result = await store.update(newUserCred);
+    const result = await store.update(userCred.username, newUserCred);
     if(result){
-      expect(result.price).toEqual(updatedProduct.price);
+      expect(result.username).toEqual(userCred.username);
     }else{
       noResult(result)
     }
-  })*/
+  })
 
   it('User delete can remove user', async()=>{
     const result = await store.delete(userCred.username);

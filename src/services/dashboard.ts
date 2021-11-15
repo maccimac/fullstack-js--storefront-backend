@@ -8,7 +8,7 @@ export interface OrderSummary extends Order, Product, User {
 }
 
 export class DashboardQueries {
-  async fetchProduct(productId: string | number, orderStatus: string | boolean ): Promise<OrderSummary[]>{
+  async fetchProduct(productId: string | number, orderStatus: string | null = null): Promise<OrderSummary[]>{
     const conn = await Client.connect()
     const sql = `
         SELECT

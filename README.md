@@ -43,8 +43,16 @@ Udacity FullStack Javascript NanoDegree Second Project
         "lastname": <lastname>,
         "password": <unique password>  }
     ```
-* Delete - [DESTROY] `/user`
-  * Requires body: `{ id: <userid> }`
+* Update - [PUT] `/user/:username`
+  * Required body
+    ```
+    {   "username": <new username>,
+        "firstname" : <new firstname>,
+        "lastname": <new lastname>,
+        "password": <new unique password>  }
+    ```    
+* Delete - [DESTROY] `/user/:username`
+  * Requires JWT Token on headers.authentication
 * Authenticate - [GET]
   ```
   /auth?username=<username>&password=<password>

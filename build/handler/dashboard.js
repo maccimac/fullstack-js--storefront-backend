@@ -12,7 +12,7 @@ const productsByPrice = async (_req, res) => {
 };
 const fetchProductOrder = async (req, res) => {
     console.log(req.params);
-    const resolvedOrderStatus = req.params.orderStatus ? req.params.orderStatus : false;
+    const resolvedOrderStatus = req.params.orderStatus ? req.params.orderStatus : null;
     const orders = await dashboard.fetchProduct(req.params.productId, resolvedOrderStatus);
     res.json(orders);
 };

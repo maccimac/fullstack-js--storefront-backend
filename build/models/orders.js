@@ -38,12 +38,10 @@ class OrderStore {
     async create(order) {
         try {
             const sql = 'INSERT INTO orders (product_id, user_id, quantity, status) VALUES($1, $2, $3, $4) RETURNING *';
-            // @ts-ignore
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [order.product_id, order.user_id, order.quantity, order.status]);
-            const targetOrder = result.rows[0];
             conn.release();
-            return targetOrder;
+            return result.rows[0];
         }
         catch (err) {
             throw new Error(`Could not add order of ${order.product_id} for ${order.user_id}. Error: ${err}`);
@@ -76,9 +74,19 @@ class OrderStore {
             // @ts-ignore
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [id]);
-            const order = result.rows[0];
             conn.release();
-            return order;
+            if (result.rowCount > 0) {
+                return {
+                    status: 'success',
+                    status_msg: `successfully deleted order no.${id} `
+                };
+            }
+            else {
+                return {
+                    status: 'error',
+                    status_msg: `cannot delete order no.${id} `
+                };
+            }
         }
         catch (err) {
             throw new Error(`Could not delete order ${id}. Error: ${err}`);

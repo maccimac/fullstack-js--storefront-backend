@@ -53,11 +53,38 @@ class UserStore {
             throw new Error(`Could not add user ${name}. Error: ${err}`);
         }
     }
+    async update(username, user) {
+        const hash = bcrypt_1.default.hashSync(user.password + bcryptPw, saltRounds);
+        try {
+            const sql = `
+      UPDATE users
+      SET username = $1, firstname = $2, lastname = $3, password_digest = $4
+      WHERE username = '${username}';
+      `;
+            // @ts-ignore
+            const conn = await database_1.default.connect();
+            const result = await conn.query(sql, [user.username, user.firstname, user.lastname, hash]);
+            conn.release();
+            if (result.rowCount) {
+                return {
+                    username: username,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    password_digest: hash
+                };
+            }
+            else {
+                return null;
+            }
+        }
+        catch (err) {
+            throw new Error(`Could not edit user ${username}. Error: ${err}`);
+        }
+    }
     async authenticate(username, password) {
         const conn = await database_1.default.connect();
         const sql = 'SELECT * FROM users WHERE username=($1)';
         const result = await conn.query(sql, [username]);
-        // console.log(password+bcryptPw)
         if (result.rows.length) {
             const targetUser = result.rows[0];
             if (bcrypt_1.default.compareSync(password + bcryptPw, targetUser.password_digest)) {

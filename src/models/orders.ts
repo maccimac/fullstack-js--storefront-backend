@@ -9,6 +9,11 @@ export type Order = {
   status?: string
 }
 
+export type Status = {
+  status: string
+  status_msg: string
+}
+
 export class OrderStore {
   async index(): Promise<Order[]> {
     try {
@@ -45,16 +50,11 @@ export class OrderStore {
   async create(order: Order): Promise<Order> {
     try {
         const sql = 'INSERT INTO orders (product_id, user_id, quantity, status) VALUES($1, $2, $3, $4) RETURNING *'
-        // @ts-ignore
         const conn = await Client.connect()
 
         const result = await conn.query(sql, [order.product_id, order.user_id, order.quantity, order.status])
-
-        const targetOrder = result.rows[0]
-
         conn.release()
-
-        return targetOrder
+        return result.rows[0]
     } catch (err) {
         throw new Error(`Could not add order of ${order.product_id} for ${order.user_id}. Error: ${err}`)
     }
@@ -85,19 +85,26 @@ export class OrderStore {
     }
   }
 
-  async delete(id: string): Promise<Order> {
+  async delete(id: number): Promise<Status> {
     try {
       const sql = 'DELETE FROM orders WHERE id=($1)'
         // @ts-ignore
         const conn = await Client.connect()
 
         const result = await conn.query(sql, [id])
-
-        const order = result.rows[0]
-
         conn.release()
 
-        return order
+        if (result.rowCount > 0 ) {
+          return {
+            status: 'success',
+            status_msg: `successfully deleted order no.${id} `
+          }
+        } else{
+          return {
+            status: 'error',
+            status_msg: `cannot delete order no.${id} `
+          }
+        }
     } catch (err) {
         throw new Error(`Could not delete order ${id}. Error: ${err}`)
     }
