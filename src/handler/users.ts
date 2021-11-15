@@ -4,10 +4,6 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 
 import { User, UserStore } from '../models/users'
-// import { JWT_TOKEN_SECRET } from '../database'
-
-// var jsonParser = bodyParser.json()
-// var urlencodedParser = bodyParser.urlencoded({ extended: false })
 dotenv.config()
 
 const store = new UserStore()

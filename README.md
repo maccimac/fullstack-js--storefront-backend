@@ -7,14 +7,15 @@ Udacity FullStack Javascript NanoDegree Second Project
 * Run on terminal: `npm i`
 * Create `.env` :
       HOST=127.0.0.1
-      USER=your_username
-      PW=your_password
+      USER=udacity_user
+      PW=password123
       DB=shop
       DB_TEST=shop_test
       ENV=dev
-      BCRYPT_PW=any_password_123
+      BCRYPT_PW=anypassword123
       SALT_ROUNDS=10
-      JWT_TOKEN_SECRET=another_secret_123
+      JWT_TOKEN_SECRET=647coquitlam
+
 * Run on terminal `yarn`
 * Create databases. Run on terminal: `npm run migrate`
 * Run on terminal: `npm run start` or `yarn watch` or `npm run watch`

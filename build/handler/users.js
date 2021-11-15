@@ -6,9 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const users_1 = require("../models/users");
-// import { JWT_TOKEN_SECRET } from '../database'
-// var jsonParser = bodyParser.json()
-// var urlencodedParser = bodyParser.urlencoded({ extended: false })
 dotenv_1.default.config();
 const store = new users_1.UserStore();
 const index = async (_req, res) => {
