@@ -3,6 +3,19 @@
 Draft a database schema that covers all the data requirements.
 Draft a map of endpoints to expose for the frontend.
 
+# Environment Setup
+Included in the Repository
+- Express
+- Node/Typescript
+- TSC Watch
+
+Express is already installed with a basic server file provided. Typescript is installed with a .tsconfig file as well as a watcher library called tsc-watch.
+
+Run yarn in your terminal to install these packages and create the node modules folder.
+
+To start the server initially, run `yarn watch`. This will kick off the watcher library and start running the application on the port specified in `server.ts`.
+
+
 # Database Setup
 Create a connection to a Postgres database from the provided Node application.
 Add tables and columns according to the database schema doc from step 1.
