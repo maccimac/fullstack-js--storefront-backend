@@ -15,9 +15,9 @@ Udacity FullStack Javascript NanoDegree Second Project
       BCRYPT_PW=any_password_123
       SALT_ROUNDS=10
       JWT_TOKEN_SECRET=another_secret_123
-
-* Run on terminal: `npm run start`
+* Run on terminal `yarn`
 * Create databases. Run on terminal: `npm run migrate`
+* Run on terminal: `npm run start` or `yarn watch` or `npm run watch`
 * Run on browser:  `localhost:3000`
 * To get a JWT Token, run on Postman: `localhost:3000/auth?username=maccimac&password=pw123`
   * Copy returned auth token. Pass token on request.headers.authorization for secure requests
