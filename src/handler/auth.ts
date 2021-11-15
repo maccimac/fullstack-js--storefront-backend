@@ -7,9 +7,7 @@ export const verifyAuth = async(req: Request, res: Response, next: NextFunction)
   try{
     const authHeader = req.headers.authorization
     const jwtVerification = jwt.verify(authHeader as string, process.env.JWT_TOKEN_SECRET as string)
-    // const bodyToken = req.body.token
-    // const token = authHeader.split(' ')[1]
-    // jwt.verify(token, process.env.JWT_TOKEN_SECRET as string)
+  
     if(jwtVerification) {
       next()
     }

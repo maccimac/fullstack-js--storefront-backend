@@ -9,9 +9,6 @@ const verifyAuth = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
         const jwtVerification = jsonwebtoken_1.default.verify(authHeader, process.env.JWT_TOKEN_SECRET);
-        // const bodyToken = req.body.token
-        // const token = authHeader.split(' ')[1]
-        // jwt.verify(token, process.env.JWT_TOKEN_SECRET as string)
         if (jwtVerification) {
             next();
         }
