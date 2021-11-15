@@ -2,7 +2,7 @@ import { OrderSummary, DashboardQueries } from './dashboard';
 const store = new DashboardQueries()
 
 describe("Dashboad model tests", () => {
-  it('Fetch products should return rows', async () => {
+  it('Fetch products in single order should return rows', async () => {
     const results = await store.fetchProduct(1);
     expect(results.length).toBeGreaterThan(0)
   });
@@ -17,7 +17,7 @@ describe("Dashboad model tests", () => {
     expect(results.length).toEqual(5)
   });
 
-  it('Fetch products in orders should return rows', async () => {
+  it('Fetch products in all orders should return rows', async () => {
     const results = await store.productsInOrders();
     expect(results.length).toBeGreaterThan(0)
   });

@@ -28,7 +28,6 @@ describe('User handler test:', () => {
             url: `http://localhost:3000/user/`,
             data: userCred,
         });
-        console.log(data);
         expect(Boolean(data)).toEqual(true);
     });
     it('User update can edit', async () => {
@@ -40,7 +39,6 @@ describe('User handler test:', () => {
                 password: "manila45"
             }
         });
-        console.log(data);
         expect(Boolean(data)).toEqual(true);
     });
     it('User delete can remove user', async () => {
@@ -51,16 +49,24 @@ describe('User handler test:', () => {
                 username: userCred.username
             },
         });
-        console.log(data);
         expect(data.status).toEqual('success');
     });
 });
-// https://stackoverflow.com/questions/25572069/testing-event-handler-on-an-object-with-jasmine
-/*it('it handles clicks on radio buttons', function () {
-    var view = new MyClass();
-    spyOn(view, 'toggleServices');
-    view.render();
-
-    view.$('input[type="radio"]').eq(0).click();
-    expect(view.toggleServices).toHaveBeenCalled();
-});*/
+/*axios({
+  method: "POST",
+  url: "https://URL.com/api/services/fetchQuizList",
+  headers: {
+    "x-access-key": data,
+    "x-access-token": token,
+  },
+  data: {
+    quiz_name: quizname,
+  },
+})
+.then(res => {
+  console.log("res", res.data.message);
+})
+.catch(err => {
+  console.log("error in request", err);
+});
+*/

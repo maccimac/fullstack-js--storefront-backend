@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const dashboard_1 = require("../services/dashboard");
+const auth_1 = require("./auth");
 const dashboard = new dashboard_1.DashboardQueries();
 const productsInOrders = async (_req, res) => {
     const products = await dashboard.productsInOrders();
@@ -17,7 +18,7 @@ const fetchProductOrder = async (req, res) => {
     res.json(orders);
 };
 const dashboardRoutes = (app) => {
-    app.get('/orders/products', productsInOrders);
+    app.get('/orders/products', auth_1.verifyAuth, productsInOrders);
     app.get('/orders/product/:productId', fetchProductOrder);
     app.get('/orders/product/:productId/:orderStatus', fetchProductOrder);
     app.get('/products/byPrice', productsByPrice);

@@ -54,19 +54,12 @@ const update = async (req: Request, res: Response) => {
     }
 }
 
-const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
-    res.json(deleted)
-}
 
 const productRoutes = (app: express.Application) => {
   app.get('/products', verifyAuth, index)
   app.get('/product/:id', show)
   app.post('/product', verifyAuth, create)
   app.put('/product/:id', verifyAuth, update)
-  app.delete('/product', verifyAuth, destroy)
-
-  // app.get('/auth', authenticate)
 }
 
 export default productRoutes

@@ -25,7 +25,7 @@ const fetchProductOrder = async (req: Request, res: Response) => {
 
 
 const dashboardRoutes = (app: express.Application) => {
-  app.get('/orders/products', productsInOrders)
+  app.get('/orders/products', verifyAuth, productsInOrders)
   app.get('/orders/product/:productId', fetchProductOrder)
   app.get('/orders/product/:productId/:orderStatus', fetchProductOrder)
   app.get('/products/byPrice', productsByPrice)

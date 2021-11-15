@@ -6,6 +6,7 @@ Udacity FullStack Javascript NanoDegree Second Project
 ##### Setup
 * Run on terminal: `npm i`
 * Create `.env` :
+      ```
       HOST=127.0.0.1
       USER=udacity_user
       PW=password123
@@ -15,6 +16,7 @@ Udacity FullStack Javascript NanoDegree Second Project
       BCRYPT_PW=anypassword123
       SALT_ROUNDS=10
       JWT_TOKEN_SECRET=647coquitlam
+      ```
 
 * Run on terminal `yarn`
 * Create databases. Run on terminal: `npm run migrate`
@@ -22,7 +24,7 @@ Udacity FullStack Javascript NanoDegree Second Project
 * Run on browser:  `localhost:3000`
 * To get a JWT Token, run on Postman: `localhost:3000/auth?username=maccimac&password=pw123`
   * Copy returned auth token. Pass token on request.headers.authorization for secure requests
-* To run tests. Run in terminal: `npm run tests`
+* To run tests. Ensure `watch` is running. Run in terminal: `npm run tests`
 
 ##### Sample Users Credentials
 * Username: `maccimac` / Password: `pw123`

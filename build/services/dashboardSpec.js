@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dashboard_1 = require("./dashboard");
 const store = new dashboard_1.DashboardQueries();
 describe("Dashboad model tests", () => {
-    it('Fetch products should return rows', async () => {
+    it('Fetch products in single order should return rows', async () => {
         const results = await store.fetchProduct(1);
         expect(results.length).toBeGreaterThan(0);
     });
@@ -15,7 +15,7 @@ describe("Dashboad model tests", () => {
         const results = await store.productsByPrice();
         expect(results.length).toEqual(5);
     });
-    it('Fetch products in orders should return rows', async () => {
+    it('Fetch products in all orders should return rows', async () => {
         const results = await store.productsInOrders();
         expect(results.length).toBeGreaterThan(0);
     });
