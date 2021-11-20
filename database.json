@@ -2,15 +2,15 @@
   "dev": {
     "driver": "pg",
     "host": "127.0.0.1",
-    "database": "shop",
-    "user": "udacity_user",
-    "password": "password123"
+    "database": {"ENV": "DB"},
+    "user": {"ENV": "USER"},
+    "password": {"ENV": "PW"}
   },
   "test": {
     "driver": "pg",
     "host": "127.0.0.1",
-    "database": "shop_test",
-    "user": "udacity_user",
-    "password": "password123"
+    "database": {"ENV": "DB_TEST"},
+    "user": {"ENV": "USER"},
+    "password": {"ENV": "PW"}
   }
 }
