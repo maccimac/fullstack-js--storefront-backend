@@ -30,7 +30,6 @@ const create = async (req, res) => {
 const update = async (req, res) => {
     try {
         const resolvedId = parseInt(req.params.id);
-        console.log(resolvedId);
         const product = {
             id: resolvedId,
             name: req.body.name,

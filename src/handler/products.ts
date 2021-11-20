@@ -38,7 +38,7 @@ const create = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
     try {
         const resolvedId = parseInt(req.params.id);
-        console.log(resolvedId)
+        
         const product: Product = {
             id: resolvedId,
             name: req.body.name,

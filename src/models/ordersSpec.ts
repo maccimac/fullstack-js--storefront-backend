@@ -55,15 +55,5 @@ describe("Order model tests", () => {
     }
   })
 
-  it('Order delete can remove order', async()=>{
-    const result = await store.delete(orderId);
-    if(result){
-      expect(result.status).toEqual('success');
-    }else{
-      noResult(result)
-    }
-  })
-
-
 
 });
