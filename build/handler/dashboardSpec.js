@@ -11,7 +11,7 @@ describe('Dashboard handler test:', () => {
     }
     let authToken;
     let orderId;
-    it('Products in all orders', async () => {
+    it('All products ordered', async () => {
         authToken = await fetchToken();
         const { data } = await (0, axios_1.default)({
             method: "GET",
@@ -20,7 +20,6 @@ describe('Dashboard handler test:', () => {
                 Authorization: authToken
             },
         });
-        console.log(data);
         expect(data.length).toBeGreaterThan(0);
     });
     it('Fetch product in single order that is complete', async () => {
@@ -28,7 +27,6 @@ describe('Dashboard handler test:', () => {
             method: "GET",
             url: "http://localhost:3000/orders/product/1/complete",
         });
-        console.log(data);
         expect(data[0].status).toEqual('complete');
     });
     it('Fetch five most expensive products', async () => {
@@ -38,31 +36,4 @@ describe('Dashboard handler test:', () => {
         });
         expect(data.length).toEqual(5);
     });
-    /*it('Order create adds order', async ()=>{
-      const {data} = await axios({
-          method: "POST",
-          url: "http://localhost:3000/order/",
-          headers: {
-            Authorization: authToken
-          },
-          data: orderCred
-        })
-        orderId = data.id
-        expect(data.user_id).toEqual(orderCred.user_id)
-    })
-
-    it('Order update edits order', async ()=>{
-      const {data} = await axios({
-          method: "PUT",
-          url: `http://localhost:3000/order/${orderId}`,
-          headers: {
-            Authorization: authToken
-          },
-          data: {
-            ... orderCred,
-            quantity: 3
-          }
-        })
-        expect(data.quantity).toEqual(3)
-    })*/
 });

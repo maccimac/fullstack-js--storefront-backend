@@ -22,14 +22,42 @@ Udacity FullStack Javascript NanoDegree Second Project
 * Create databases. Run on terminal: `npm run migrate`
 * Run on terminal: `npm run start` or `yarn watch` or `npm run watch`
 * Run on browser:  `localhost:3000`
+  * Preferred host is `3000`
 * To get a JWT Token, run on Postman: `localhost:3000/auth?username=maccimac&password=pw123`
   * Copy returned auth token. Pass token on request.headers.authorization for secure requests
-* To run tests. Ensure `watch` is running. Run in terminal: `npm run tests`
+* To run tests, run in a SEPARATE terminal: `npm run test`.
+  * For tests to run: ENSURE `watch` IS RUNNING ON THE ORIGINAL TERMINAL. (Choose any of the ff: `npm run start` or `yarn watch` or `npm run watch`)
 
 ##### Sample Users Credentials
 * Username: `maccimac` / Password: `pw123`
 * Username: `sample_user` / Password: `password456`  
 
+
+## Data Modales
+
+## Data Shapes
+#### Product
+-  id
+- name
+- price
+- [OPTIONAL] brand
+
+#### User
+- id
+- firstname
+- lastname
+- password_digest
+
+#### Orders
+- id
+- user_id
+- status (pending / active / completed)
+
+### Order_Products
+- id
+- order_id
+- product_id
+- quantity
 
 ## Endpoints
  Example: `htttp://localhost:3000/orders/product/1`
