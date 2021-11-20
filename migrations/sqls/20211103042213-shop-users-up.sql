@@ -18,3 +18,8 @@ VALUES ('sample_user', 'Joshua', 'Bondoc', '$2b$10$8ckiANmMS.Q8ZTKzWBKWReuR06h1z
 INSERT INTO users (username, firstname, lastname, password_digest)
 VALUES ('maccihello', 'Margaret', 'Macaranas', '$2b$10$XBp3B58HbWV4Y2Fktc3sVehhT8LHNquW2//qUaXpp6/6LGE7Bq4nS');
 /* password: canada */
+
+INSERT INTO users (username, firstname, lastname, password_digest)
+VALUES ('ginny', 'Ginnyfer Potpot', 'Macaranas', '$2b$10$XBp3B58HbWV4Y2Fktc3sVehhT8LHNquW2//qUaXpp6/6LGE7Bq4nS');
+
+/* password: canada */

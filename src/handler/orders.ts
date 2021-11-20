@@ -26,6 +26,7 @@ const create = async (req: Request, res: Response) => {
         }
 
         const newOrder = await store.create(order)
+        console.log(newOrder)
         res.json(newOrder)
     } catch(err) {
         res.status(400)

@@ -15,7 +15,7 @@ describe("Order model tests", () => {
   it('Order show should return details', async () => {
     const result = await store.show(1);
     if(result){
-      const expectedKeyArrs = [ 'id', 'product_id', 'user_id', 'quantity', 'status'].sort();
+      const expectedKeyArrs = ['id', 'user_id', 'status'].sort();
       const keyArrs = await Object.keys(result).sort();
       expect(keyArrs).toEqual(expectedKeyArrs);
     }else{
@@ -24,9 +24,7 @@ describe("Order model tests", () => {
   });
 
   const orderCred = {
-    product_id: 5,
-    user_id: 3,
-    quantity: 4,
+    user_id: 4,
     status: 'pending'
   }
 
@@ -46,12 +44,12 @@ describe("Order model tests", () => {
   it('Order update can edit quantity', async()=>{
     const newOrderCred = {
       ...orderCred,
-      quantity: 3,
-      id: 2
+      id: orderId,
+      status: 'complete'
     }
     const result = await store.update(newOrderCred);
     if(result){
-      expect(result.quantity).toEqual(newOrderCred.quantity);
+      expect(result.status).toEqual(newOrderCred.status);
     }else{
       noResult(result)
     }

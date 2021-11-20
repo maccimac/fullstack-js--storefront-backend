@@ -49,12 +49,11 @@ export class OrderStore {
     try {
         const sql = 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *'
         const conn = await Client.connect()
-
         const result = await conn.query(sql, [order.user_id, order.status])
         conn.release()
         return result.rows[0]
     } catch (err) {
-        throw new Error(`Could not add ${order.status} order for ${order.user_id}. Error: ${err}`)
+        throw new Error(`Could not add ${order.status} order for user ${order.user_id}. Error: ${err}`)
     }
   }
 

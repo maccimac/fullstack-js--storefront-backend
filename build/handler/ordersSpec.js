@@ -11,8 +11,8 @@ describe('Orders handler test:', () => {
     }
     let authToken;
     const orderCred = {
-        user_id: 4,
-        status: 'complete'
+        user_id: 3,
+        status: 'pending'
     };
     let orderId;
     it('Order index returns', async () => {
@@ -57,9 +57,9 @@ describe('Orders handler test:', () => {
             },
             data: {
                 ...orderCred,
-                quantity: 3
+                status: 'complete'
             }
         });
-        expect(data.quantity).toEqual(3);
+        expect(data.status).toEqual('complete');
     });
 });
