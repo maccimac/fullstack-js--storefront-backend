@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import productRoutes from './handler/products'
 import userRoutes from './handler/users'
 import orderRoutes from './handler/orders'
+import orderProductsRoutes from './handler/order-products'
 import dashboardRoutes from './handler/dashboard'
 
 export const app = express()
@@ -22,4 +23,5 @@ app.get('/', (req: express.Request, res: express.Response) => {
 productRoutes(app)
 userRoutes(app)
 orderRoutes(app)
+orderProductsRoutes(app)
 dashboardRoutes(app)

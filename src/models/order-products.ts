@@ -1,10 +1,11 @@
 // @ts-ignore
 import Client from '../database'
 
-export type Order = {
+export type OrderProduct = {
   id?: number
-  user_id: number
-  status?: string
+  order_id: number
+  product_id: number
+  quantity: number
 }
 
 export type Status = {
@@ -12,24 +13,24 @@ export type Status = {
   status_msg: string
 }
 
-export class OrderStore {
-  async index(): Promise<Order[]> {
+export class OrderProductsStore {
+  async index(): Promise<OrderProduct[]> {
     try {
       // @ts-ignore
       const conn = await Client.connect()
-      const sql = 'SELECT * FROM orders'
+      const sql = 'SELECT * FROM order_products'
       const result = await conn.query(sql)
       conn.release()
       return result.rows
 
     } catch (err) {
-      throw new Error(`Could not get orders. Error: ${err}`)
+      throw new Error(`Could not get product orders. Error: ${err}`)
     }
   }
 
-  async show(id: string | number): Promise<Order | undefined > {
+  async show(id: string | number): Promise<OrderProduct | undefined > {
     try {
-        const sql = 'SELECT * FROM orders WHERE id=($1)'
+        const sql = 'SELECT * FROM order_products WHERE id=($1)'
         // @ts-ignore
         const conn = await Client.connect()
 
@@ -45,47 +46,47 @@ export class OrderStore {
     }
   }
 
-  async create(order: Order): Promise<Order> {
+  async create(orderProducts: OrderProduct): Promise<OrderProduct> {
     try {
-        const sql = 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *'
+        const sql = 'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING *'
         const conn = await Client.connect()
 
-        const result = await conn.query(sql, [order.user_id, order.status])
+        const result = await conn.query(sql, [orderProducts.order_id, orderProducts.product_id, orderProducts.quantity])
         conn.release()
         return result.rows[0]
     } catch (err) {
-        throw new Error(`Could not add ${order.status} order for ${order.user_id}. Error: ${err}`)
+        throw new Error(`Could not add product #${orderProducts.product_id} to order #${orderProducts.order_id}. Error: ${err}`)
     }
   }
 
-  async update(order: Order): Promise<Order | undefined> {
+  async update(orderProducts: OrderProduct): Promise<OrderProduct | undefined> {
     try{
       const sql = `
-      UPDATE orders
-      SET  user_id = $2, status = $3
+      UPDATE order_products
+      SET  order_id=$2, product_id = $3, quantity = $4
       WHERE id = $1;
       `
       // @ts-ignore
       const conn = await Client.connect()
 
-      const result = await conn.query(sql, [order.id, order.user_id, order.status])
+      const result = await conn.query(sql, [orderProducts.id, orderProducts.order_id, orderProducts.product_id, orderProducts.quantity])
 
       conn.release()
 
       if(result.rowCount){
-        const resolvedId = `${order.id}`
+        const resolvedId = `${orderProducts.id}`
         const targetOrder = await this.show(resolvedId)
         return targetOrder
       }
 
     }catch(err){
-      throw new Error(`Could not edit order ${order.id}. Error: ${err}`)
+      throw new Error(`Could not edit order ${orderProducts.id}. Error: ${err}`)
     }
   }
 
   async delete(id: number): Promise<Status> {
     try {
-      const sql = 'DELETE FROM orders WHERE id=($1)'
+      const sql = 'DELETE FROM order_products WHERE id=($1)'
         // @ts-ignore
         const conn = await Client.connect()
 

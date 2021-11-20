@@ -35,54 +35,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var dotenv_1 = __importDefault(require("dotenv"));
-var users_1 = require("../models/users");
-dotenv_1["default"].config();
-var store = new users_1.UserStore();
+var order_products_1 = require("../models/order-products");
+var auth_1 = require("./auth");
+var store = new order_products_1.OrderProductsStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
+    var orderProducts;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, store.index()];
             case 1:
-                users = _a.sent();
-                res.json(users);
+                orderProducts = _a.sent();
+                res.json(orderProducts);
                 return [2 /*return*/];
         }
     });
 }); };
 var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+    var orderProduct;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, store.show(req.params.id)];
             case 1:
-                user = _a.sent();
-                res.json(user);
+                orderProduct = _a.sent();
+                res.json(orderProduct);
                 return [2 /*return*/];
         }
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, newUser, token, err_1;
+    var orderProduct, newOrderProducts, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                user = req.body;
-                return [4 /*yield*/, store.create(user)];
+                orderProduct = {
+                    order_id: req.body.order_id,
+                    product_id: req.body.product_id,
+                    quantity: req.body.quantity
+                };
+                return [4 /*yield*/, store.create(orderProduct)];
             case 1:
-                newUser = _a.sent();
-                token = jsonwebtoken_1["default"].sign({ user: newUser }, process.env.JWT_TOKEN_SECRET);
-                res.json({
-                    user: newUser,
-                    token: token
-                });
+                newOrderProducts = _a.sent();
+                res.json(newOrderProducts);
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -94,26 +89,23 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, newUserCred, updatedUser, token, err_2;
+    var resolvedId, orderProduct, newOrderProducts, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                username = req.params.username;
-                newUserCred = req.body;
-                return [4 /*yield*/, store.update(username, newUserCred)];
+                resolvedId = parseInt(req.params.id);
+                console.log(resolvedId);
+                orderProduct = {
+                    id: resolvedId,
+                    order_id: req.body.order_id,
+                    product_id: req.body.product_id,
+                    quantity: req.body.quantity
+                };
+                return [4 /*yield*/, store.update(orderProduct)];
             case 1:
-                updatedUser = _a.sent();
-                token = jsonwebtoken_1["default"].sign({ user: updatedUser }, process.env.JWT_TOKEN_SECRET);
-                if (Boolean(updatedUser)) {
-                    res.json({
-                        user: updatedUser,
-                        token: token
-                    });
-                }
-                else {
-                    res.json("cannot update user " + username);
-                }
+                newOrderProducts = _a.sent();
+                res.json(newOrderProducts);
                 return [3 /*break*/, 3];
             case 2:
                 err_2 = _a.sent();
@@ -124,32 +116,11 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, token;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, store.authenticate(req.query.username, req.query.password)];
-            case 1:
-                user = _a.sent();
-                if (user) {
-                    token = jsonwebtoken_1["default"].sign({ user: user }, process.env.JWT_TOKEN_SECRET);
-                    res.json({
-                        token: token,
-                        user: user
-                    });
-                }
-                else {
-                    res.json(null);
-                }
-                return [2 /*return*/];
-        }
-    });
-}); };
 var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var deleted;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store["delete"](req.body.username)];
+            case 0: return [4 /*yield*/, store["delete"](req.body.id)];
             case 1:
                 deleted = _a.sent();
                 res.json(deleted);
@@ -157,12 +128,11 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
-var userRoutes = function (app) {
-    app.get('/users', index);
-    app.get('/user/:username', show);
-    app.post('/user', create);
-    app.put('/user/:username', update);
-    app["delete"]('/user', destroy);
-    app.get('/auth', authenticate);
+var orderProductsRoutes = function (app) {
+    app.get('/orderProducts', index);
+    app.get('/orderProduct/:id', auth_1.verifyAuth, show);
+    app.post('/orderProduct', auth_1.verifyAuth, create);
+    app.put('/orderProduct/:id', auth_1.verifyAuth, update);
+    app["delete"]('/orderProduct', auth_1.verifyAuth, destroy);
 };
-exports["default"] = userRoutes;
+exports["default"] = orderProductsRoutes;

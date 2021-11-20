@@ -9,10 +9,8 @@ describe('Orders handler test:', ()=>{
 
     let authToken: string
     const orderCred = {
-      product_id: 5,
-      user_id: 3,
-      quantity: 4,
-      status: 'pending'
+      user_id: 4,
+      status: 'complete'
     }
 
     let orderId: number

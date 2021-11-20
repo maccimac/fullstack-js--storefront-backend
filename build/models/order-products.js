@@ -39,17 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.UserStore = void 0;
+exports.OrderProductsStore = void 0;
+// @ts-ignore
 var database_1 = __importDefault(require("../database"));
-var bcrypt_1 = __importDefault(require("bcrypt"));
-var dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1["default"].config();
-var bcryptPw = process.env.BCRYPT_PW;
-var saltRounds = parseInt(process.env.SALT_ROUNDS);
-var UserStore = /** @class */ (function () {
-    function UserStore() {
+var OrderProductsStore = /** @class */ (function () {
+    function OrderProductsStore() {
     }
-    UserStore.prototype.index = function () {
+    OrderProductsStore.prototype.index = function () {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_1;
             return __generator(this, function (_a) {
@@ -59,7 +55,7 @@ var UserStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT * FROM users';
+                        sql = 'SELECT * FROM order_products';
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -67,20 +63,20 @@ var UserStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows];
                     case 3:
                         err_1 = _a.sent();
-                        throw new Error("Could not get users. Error: " + err_1);
+                        throw new Error("Could not get product orders. Error: " + err_1);
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    UserStore.prototype.show = function (id) {
+    OrderProductsStore.prototype.show = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, err_2;
+            var sql, conn, result, err_2, err_msg;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'SELECT * FROM users WHERE id=($1)';
+                        sql = 'SELECT * FROM order_products WHERE id=($1)';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
@@ -91,146 +87,103 @@ var UserStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_2 = _a.sent();
-                        throw new Error("Could not get user " + id + ". Error: " + err_2);
+                        err_msg = "Could not get orders " + id + ". Error: " + err_2;
+                        throw new Error(err_msg);
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    UserStore.prototype.create = function (user) {
+    OrderProductsStore.prototype.create = function (orderProducts) {
         return __awaiter(this, void 0, void 0, function () {
-            var hash, sql, conn, result, article, err_3;
+            var sql, conn, result, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        hash = bcrypt_1["default"].hashSync(user.password + bcryptPw, saltRounds);
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 4, , 5]);
-                        sql = 'INSERT INTO users (username, firstname, lastname, password_digest) VALUES($1, $2, $3, $4) RETURNING *';
+                        _a.trys.push([0, 3, , 4]);
+                        sql = 'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING *';
                         return [4 /*yield*/, database_1["default"].connect()];
-                    case 2:
+                    case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [user.username, user.firstname, user.lastname, hash])];
-                    case 3:
+                        return [4 /*yield*/, conn.query(sql, [orderProducts.order_id, orderProducts.product_id, orderProducts.quantity])];
+                    case 2:
                         result = _a.sent();
-                        article = result.rows[0];
                         conn.release();
-                        return [2 /*return*/, article];
-                    case 4:
+                        return [2 /*return*/, result.rows[0]];
+                    case 3:
                         err_3 = _a.sent();
-                        throw new Error("Could not add user " + name + ". Error: " + err_3);
-                    case 5: return [2 /*return*/];
+                        throw new Error("Could not add product #" + orderProducts.product_id + " to order #" + orderProducts.order_id + ". Error: " + err_3);
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    UserStore.prototype.update = function (username, user) {
+    OrderProductsStore.prototype.update = function (orderProducts) {
         return __awaiter(this, void 0, void 0, function () {
-            var hash, sql, conn, result, err_4;
+            var sql, conn, result, resolvedId, targetOrder, err_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        hash = bcrypt_1["default"].hashSync(user.password + bcryptPw, saltRounds);
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 4, , 5]);
-                        sql = "\n      UPDATE users\n      SET username = $1, firstname = $2, lastname = $3, password_digest = $4\n      WHERE username = '" + username + "';\n      ";
+                        _a.trys.push([0, 5, , 6]);
+                        sql = "\n      UPDATE order_products\n      SET  order_id=$2, product_id = $3, quantity = $4\n      WHERE id = $1;\n      ";
                         return [4 /*yield*/, database_1["default"].connect()];
-                    case 2:
+                    case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [user.username, user.firstname, user.lastname, hash])];
-                    case 3:
+                        return [4 /*yield*/, conn.query(sql, [orderProducts.id, orderProducts.order_id, orderProducts.product_id, orderProducts.quantity])];
+                    case 2:
                         result = _a.sent();
                         conn.release();
-                        if (result.rowCount) {
-                            return [2 /*return*/, {
-                                    username: username,
-                                    firstname: user.firstname,
-                                    lastname: user.lastname,
-                                    password_digest: hash
-                                }];
-                        }
-                        else {
-                            return [2 /*return*/, null];
-                        }
-                        return [3 /*break*/, 5];
-                    case 4:
+                        if (!result.rowCount) return [3 /*break*/, 4];
+                        resolvedId = "" + orderProducts.id;
+                        return [4 /*yield*/, this.show(resolvedId)];
+                    case 3:
+                        targetOrder = _a.sent();
+                        return [2 /*return*/, targetOrder];
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         err_4 = _a.sent();
-                        throw new Error("Could not edit user " + username + ". Error: " + err_4);
-                    case 5: return [2 /*return*/];
+                        throw new Error("Could not edit order " + orderProducts.id + ". Error: " + err_4);
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     };
-    UserStore.prototype.authenticate = function (username, password) {
-        return __awaiter(this, void 0, void 0, function () {
-            var conn, sql, result, targetUser;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, database_1["default"].connect()];
-                    case 1:
-                        conn = _a.sent();
-                        sql = 'SELECT * FROM users WHERE username=($1)';
-                        return [4 /*yield*/, conn.query(sql, [username])];
-                    case 2:
-                        result = _a.sent();
-                        if (result.rows.length) {
-                            targetUser = result.rows[0];
-                            if (bcrypt_1["default"].compareSync(password + bcryptPw, targetUser.password_digest)) {
-                                return [2 /*return*/, targetUser];
-                            }
-                            else {
-                                return [2 /*return*/, null];
-                            }
-                        }
-                        else {
-                            return [2 /*return*/, null];
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    UserStore.prototype["delete"] = function (username) {
+    OrderProductsStore.prototype["delete"] = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var sql, conn, result, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'DELETE FROM users WHERE username=($1)';
+                        sql = 'DELETE FROM order_products WHERE id=($1)';
                         return [4 /*yield*/, database_1["default"].connect()];
                     case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [username])
-                            // console.log(result)
-                        ];
+                        return [4 /*yield*/, conn.query(sql, [id])];
                     case 2:
                         result = _a.sent();
-                        // console.log(result)
                         conn.release();
                         if (result.rowCount > 0) {
                             return [2 /*return*/, {
                                     status: 'success',
-                                    status_msg: "successfully deleted user " + username + " "
+                                    status_msg: "successfully deleted order no." + id + " "
                                 }];
                         }
                         else {
                             return [2 /*return*/, {
                                     status: 'error',
-                                    status_msg: "cannot delete user " + username + " "
+                                    status_msg: "cannot delete order no." + id + " "
                                 }];
                         }
                         return [3 /*break*/, 4];
                     case 3:
                         err_5 = _a.sent();
-                        throw new Error("Could not delete user " + username + ". Error: " + err_5);
+                        throw new Error("Could not delete order " + id + ". Error: " + err_5);
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    return UserStore;
+    return OrderProductsStore;
 }());
-exports.UserStore = UserStore;
+exports.OrderProductsStore = OrderProductsStore;
