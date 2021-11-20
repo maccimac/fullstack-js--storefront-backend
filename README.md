@@ -33,9 +33,8 @@ Udacity FullStack Javascript NanoDegree Second Project
 * Username: `sample_user` / Password: `password456`  
 
 
-## Data Modales
+## Data Models
 
-## Data Shapes
 #### Product
 -  id
 - name
@@ -53,7 +52,7 @@ Udacity FullStack Javascript NanoDegree Second Project
 - user_id
 - status (pending / active / completed)
 
-### Order_Products
+#### Order_Products
 - id
 - order_id
 - product_id
@@ -90,27 +89,27 @@ Udacity FullStack Javascript NanoDegree Second Project
   ```
   * Returns User and JWT Token
 
-  ### Products
-  Product requests requires JWT Token passed to headers.authorization
-  * Index - [GET] `/products`
-  * Show - [GET] `/product/:id`
-    * Does not require JWT Token
-  * Create - [POST] `/product`
-    * Required body:
-      ```
-      {   "name": <product name>,
-          "price" : <price>,
-          "brand": <brand name>   }
-      ```
-  * Update - [PUT] `/product/:id`
-    * Required body:
-      ```
-      {   "name": <update or retain name>,
-          "price" : <update or retain price>,
-          "brand": <update or retain brand>   }
-      ```
+#### Products
+Product requests requires JWT Token passed to headers.authorization
+* Index - [GET] `/products`
+* Show - [GET] `/product/:id`
+  * Does not require JWT Token
+* Create - [POST] `/product`
+  * Required body:
+    ```
+    {   "name": <product name>,
+        "price" : <price>,
+        "brand": <brand name>   }
+    ```
+* Update - [PUT] `/product/:id`
+  * Required body:
+    ```
+    {   "name": <update or retain name>,
+        "price" : <update or retain price>,
+        "brand": <update or retain brand>   }
+    ```
 
-### Orders
+#### Orders
 Product requests requires JWT Token passed to headers.authorization
 * Index - [GET] `/orders`
 * Show - [GET] `/order/:id`
@@ -130,7 +129,7 @@ Product requests requires JWT Token passed to headers.authorization
 * Destroy - [DELETE] `/order/`
   * Required body: `{  "id": <1-3> }`    
 
-### Order Products
+#### Order Products
 Product requests requires JWT Token passed to headers.authorization
 
 * Index - [GET] `/orderProducts`
@@ -154,9 +153,9 @@ Product requests requires JWT Token passed to headers.authorization
   * Required body: `{  "id": <1-3> }`
 
 
-### Dashboard
+#### Dashboard
 * Products in single order - [GET] `/order/:id/products`
-* User in order - [GET] `/order/:id/users`
+* User in order - [GET] `/order/:id/user`
 * Products by price - [GET] `/products/byPrice`
 
 
@@ -167,7 +166,7 @@ Product requests requires JWT Token passed to headers.authorization
 
 ## Version History
 * v2.0
-    * Recommendations if any
+    * Order-products table
 * v1.0
     * Initial submit
 
