@@ -10,12 +10,12 @@ describe('Dashboard handler test:', ()=>{
     let authToken: string
     let orderId: number
 
-    it('All products ordered', async ()=>{
+    it('Get products from single order', async ()=>{
       authToken = await fetchToken()
 
       const {data} = await axios({
           method: "GET",
-          url: "http://localhost:3000/orders/products",
+          url: "http://localhost:3000/order/1/products",
           headers: {
             Authorization: authToken
           },
@@ -23,12 +23,17 @@ describe('Dashboard handler test:', ()=>{
       expect(data.length).toBeGreaterThan(0)
     })
 
-    it('Fetch product in single order that is complete', async ()=>{
+    it('Get user of single order', async ()=>{
+      authToken = await fetchToken()
+
       const {data} = await axios({
           method: "GET",
-          url: "http://localhost:3000/orders/product/1/complete",
+          url: "http://localhost:3000/order/1/user",
+          headers: {
+            Authorization: authToken
+          },
         })
-      expect(data[0].status).toEqual('complete')
+      expect(data.length).toBeGreaterThan(0)
     })
 
     it('Fetch five most expensive products', async ()=>{

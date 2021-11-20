@@ -44,7 +44,6 @@ describe("Order model tests", () => {
             status: 'complete'
         };
         const result = await store.update(newOrderCred);
-        console.log(result);
         if (result) {
             expect(result.status).toEqual(newOrderCred.status);
         }

@@ -3,7 +3,12 @@ const store = new DashboardQueries()
 
 describe("Dashboad model tests", () => {
   it('Fetch products in single order should return rows', async () => {
-    const results = await store.fetchProduct(1);
+    const results = await store.productsInOrders('1');
+    expect(results.length).toBeGreaterThan(0)
+  });
+
+  it('Fetch user of a single order should return rows', async () => {
+    const results = await store.orderUser('1');
     expect(results.length).toBeGreaterThan(0)
   });
 
@@ -17,9 +22,5 @@ describe("Dashboad model tests", () => {
     expect(results.length).toEqual(5)
   });
 
-  it('Fetch products in all orders should return rows', async () => {
-    const results = await store.productsInOrders();
-    expect(results.length).toBeGreaterThan(0)
-  });
 
 });
