@@ -145,7 +145,7 @@ Product requests requires JWT Token passed to headers.authorization
 * Update - [PUT] `/orderProduct/:id`
   * Required body:
     ```
-    {   "id": <1-3>
+    {   "id": <1-7>
         "product_id": <1-14>,
         "order_id" : <1-3>,
         "quantity": <any number>  }
@@ -158,7 +158,6 @@ Product requests requires JWT Token passed to headers.authorization
 * Products in single order - [GET] `/order/:id/products`
 * User in order - [GET] `/order/:id/users`
 * Products by price - [GET] `/products/byPrice`
-
 
 
 ## Author
