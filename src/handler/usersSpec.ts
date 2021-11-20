@@ -57,22 +57,3 @@ describe('User handler test:', ()=>{
 
 
 })
-
-/*axios({
-  method: "POST",
-  url: "https://URL.com/api/services/fetchQuizList",
-  headers: {
-    "x-access-key": data,
-    "x-access-token": token,
-  },
-  data: {
-    quiz_name: quizname,
-  },
-})
-.then(res => {
-  console.log("res", res.data.message);
-})
-.catch(err => {
-  console.log("error in request", err);
-});
-*/

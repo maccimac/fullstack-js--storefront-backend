@@ -39,10 +39,8 @@ class UserStore {
     }
     async create(user) {
         const hash = bcrypt_1.default.hashSync(user.password + bcryptPw, saltRounds);
-        // console.log(hash)
         try {
             const sql = 'INSERT INTO users (username, firstname, lastname, password_digest) VALUES($1, $2, $3, $4) RETURNING *';
-            // @ts-ignore
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [user.username, user.firstname, user.lastname, hash]);
             const article = result.rows[0];
@@ -103,7 +101,6 @@ class UserStore {
             const sql = 'DELETE FROM users WHERE username=($1)';
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [username]);
-            // console.log(result)
             conn.release();
             if (result.rowCount > 0) {
                 return {

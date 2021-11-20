@@ -26,7 +26,7 @@ const create = async (req: Request, res: Response) => {
         }
 
         const newOrder = await store.create(order)
-        console.log(newOrder)
+
         res.json(newOrder)
     } catch(err) {
         res.status(400)
@@ -37,7 +37,7 @@ const create = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
     try {
         const resolvedId = parseInt(req.params.id);
-        console.log(resolvedId)
+
         const order: Order = {
             id: resolvedId,
             user_id: req.body.user_id,
@@ -52,18 +52,12 @@ const update = async (req: Request, res: Response) => {
     }
 }
 
-const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
-    res.json(deleted)
-}
-
 
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', verifyAuth, index)
   app.get('/order/:id', verifyAuth, show)
   app.post('/order', verifyAuth, create)
   app.put('/order/:id', verifyAuth, update)
-  app.delete('/order', verifyAuth, destroy)
 
 }
 

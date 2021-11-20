@@ -7,9 +7,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const pg_1 = require("pg");
 dotenv_1.default.config();
 const { HOST, DB, DB_TEST, USER, PASSWORD, ENV, BCRYPT_PW, SALT_ROUNDS, JWT_TOKEN_SECRET } = process.env;
-// export const BCRYPT_PW: string = process.env.BCRYPT_PW
-// export const SALT_ROUNDS: string = process.env.SALT_ROUNDS
-console.log(ENV);
 const client = new pg_1.Pool({
     host: HOST,
     database: ENV == 'dev' ? DB : DB_TEST,

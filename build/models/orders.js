@@ -68,29 +68,5 @@ class OrderStore {
             throw new Error(`Could not edit order ${order.id}. Error: ${err}`);
         }
     }
-    async delete(id) {
-        try {
-            const sql = 'DELETE FROM orders WHERE id=($1)';
-            // @ts-ignore
-            const conn = await database_1.default.connect();
-            const result = await conn.query(sql, [id]);
-            conn.release();
-            if (result.rowCount > 0) {
-                return {
-                    status: 'success',
-                    status_msg: `successfully deleted order no.${id} `
-                };
-            }
-            else {
-                return {
-                    status: 'error',
-                    status_msg: `cannot delete order no.${id} `
-                };
-            }
-        }
-        catch (err) {
-            throw new Error(`Could not delete order ${id}. Error: ${err}`);
-        }
-    }
 }
 exports.OrderStore = OrderStore;

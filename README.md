@@ -117,27 +117,47 @@ Product requests requires JWT Token passed to headers.authorization
 * Create - [POST] `/order`
   * Required body:
     ```
-    {   "product_id": <1-14>,
-        "user_id" : <1-3>,
-        "quantity": <any number>,
+    {   "user_id" : <1-3>,
         "status" : <pending / active / complete>  }
     ```
 * Update - [PUT] `/product/:id`
   * Required body:
     ```
-    {   "product_id": <1-14>,
+    {   "id": <1-3>,
         "user_id" : <1-3>,
-        "quantity": <any number>,
         "status" : <pending / active / complete>  }
     ```
+* Destroy - [DELETE] `/order/`
+  * Required body: `{  "id": <1-3> }`    
+
+### Order Products
+Product requests requires JWT Token passed to headers.authorization
+
+* Index - [GET] `/orderProducts`
+* Show - [GET] `/orderProduct/:id`
+* Create - [POST] `/orderProduct`
+  * Required body:
+    ```
+    {   "product_id": <1-14>,
+        "order_id" : <1-3>,
+        "quantity": <any number>  }
+    ```
+* Update - [PUT] `/orderProduct/:id`
+  * Required body:
+    ```
+    {   "id": <1-7>
+        "product_id": <1-14>,
+        "order_id" : <1-3>,
+        "quantity": <any number>  }
+    ```
+* Destroy - [DELETE] `/orderProduct/`
+  * Required body: `{  "id": <1-3> }`
 
 
 ### Dashboard
-* Index / Products in orders- [GET] `/orders/products`
-* Products in order id - [GET] `/orders/product/:productId`
-* Products in order id with status filter - [GET] `/orders/product/:productId/:orderStatus`
+* Products in single order - [GET] `/order/:id/products`
+* User in order - [GET] `/order/:id/users`
 * Products by price - [GET] `/products/byPrice`
-
 
 
 ## Author

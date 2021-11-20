@@ -82,29 +82,5 @@ export class OrderStore {
     }
   }
 
-  async delete(id: number): Promise<Status> {
-    try {
-      const sql = 'DELETE FROM orders WHERE id=($1)'
-        // @ts-ignore
-        const conn = await Client.connect()
-
-        const result = await conn.query(sql, [id])
-        conn.release()
-
-        if (result.rowCount > 0 ) {
-          return {
-            status: 'success',
-            status_msg: `successfully deleted order no.${id} `
-          }
-        } else{
-          return {
-            status: 'error',
-            status_msg: `cannot delete order no.${id} `
-          }
-        }
-    } catch (err) {
-        throw new Error(`Could not delete order ${id}. Error: ${err}`)
-    }
-  }
 
 }
