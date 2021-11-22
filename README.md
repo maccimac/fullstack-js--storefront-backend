@@ -34,29 +34,7 @@ Udacity FullStack Javascript NanoDegree Second Project
 
 
 ## Data Models
-
-#### Product
--  id
-- name
-- price
-- [OPTIONAL] brand
-
-#### User
-- id
-- firstname
-- lastname
-- password_digest
-
-#### Orders
-- id
-- user_id
-- status (pending / active / completed)
-
-#### Order_Products
-- id
-- order_id
-- product_id
-- quantity
+Find required data shapes/models for table in REQUIREMENTS.md
 
 ## Endpoints
  Example: `htttp://localhost:3000/orders/product/1`
